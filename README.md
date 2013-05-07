@@ -10,4 +10,4 @@ Two great framworks come together.
 
 Usage:
 * compile the code and put it on your classpath.
-* <pre><code>   <connection id="xml-input" driver="vtdxml" url="${some_directory}/large.xml"/>  </code></pre>
+* <code>   <connection id="xml-input" driver="vtdxml" url="${some_directory}/large.xml"/>  </code>
