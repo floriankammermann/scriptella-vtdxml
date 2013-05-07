@@ -7,3 +7,7 @@ Checkout the test with the large.xml in scriptella.driver.vtdxml.XPathConnection
 this is what you want to see.
 
 Two great framworks come together.
+
+Usage:
+* compile the code and put it on your classpath.
+* <connection id="xml-input" driver="vtdxml" url="${some_directory}/large.xml"/>
