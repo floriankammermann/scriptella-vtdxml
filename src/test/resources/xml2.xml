@@ -1,0 +1,12 @@
+<xml>
+    <element attribute="1">
+        <attribute>2</attribute>
+    </element>
+    <element2>
+        <attribute>1</attribute>
+    </element2>
+    <element2>el2</element2>
+    <element attribute="2">
+    	<attribute>99</attribute>
+    </element>
+</xml>
