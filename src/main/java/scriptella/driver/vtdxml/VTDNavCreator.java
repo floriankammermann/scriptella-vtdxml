@@ -23,12 +23,8 @@ public class VTDNavCreator {
 	private static final Logger log = LoggerFactory.getLogger(VTDNavCreator.class);
 
 	public static VTDNav getVTDNav(URL url) {
-		try {
-			VTDNav vtdNav = createVTDNavFromXmlFile(url);
-			return vtdNav;
-		} catch (Exception e) {
-			throw new VtdXmlXPathProviderException("Unable to parse document " + url, e);
-		}
+		VTDNav vtdNav = createVTDNavFromXmlFile(url);
+		return vtdNav;
 	}
 
 	private static VTDNav createVTDNavFromXmlFile(URL url) {
@@ -43,9 +39,9 @@ public class VTDNavCreator {
 		}
 
 		VTDGen vg = new VTDGen();
-		vg.setDoc(b);
 
 		try {
+			vg.setDoc(b);
 			vg.parse(false);
 		} catch (Exception e) {
 			throw new VtdXmlXPathProviderException("Exception while parsing the url: " + url.toString(), e);
