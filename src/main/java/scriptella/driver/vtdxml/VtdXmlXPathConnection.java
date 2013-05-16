@@ -82,7 +82,7 @@ public class VtdXmlXPathConnection extends AbstractConnection {
     public void executeQuery(Resource queryContent, ParametersCallback parametersCallback, QueryCallback queryCallback) throws ProviderException {
         XPathQueryExecutor exec = cache_queries?queriesCache.get(queryContent) : null;
         if (exec == null) {
-            exec = new XPathQueryExecutor(queryContext, getVTDNav(), queryContent, counter, returnArrays);
+            exec = new XPathQueryExecutor(getVTDNav(), queryContent, counter, returnArrays);
             if (cache_queries) {
                 queriesCache.put(queryContent, exec);
             }

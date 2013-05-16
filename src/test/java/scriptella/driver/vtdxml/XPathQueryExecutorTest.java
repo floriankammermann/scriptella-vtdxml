@@ -36,17 +36,12 @@ import com.ximpleware.VTDNav;
  * @version 1.0
  */
 public class XPathQueryExecutorTest extends AbstractTestCase {
-    private ThreadLocal<VTDNav> context;
-
-    protected void setUp() throws Exception {
-        context = new ThreadLocal<VTDNav>();
-    }
 
     public void test() throws ParserConfigurationException, IOException, SAXException {
     	VTDNav vtdNav = VTDNavCreator.getVTDNav(new File("src/test/resources/xml1.xml").toURI().toURL());
     	
         Resource res = new StringResource("/html/body/table/tr");
-        XPathQueryExecutor exec = new XPathQueryExecutor(context, vtdNav, res, new AbstractConnection.StatementCounter(), true);
+        XPathQueryExecutor exec = new XPathQueryExecutor(vtdNav, res, new AbstractConnection.StatementCounter(), true);
         IndexedQueryCallback callback = new IndexedQueryCallback() {
 
             protected void processRow(final ParametersCallback parameters, final int rowNumber) {
@@ -65,7 +60,7 @@ public class XPathQueryExecutorTest extends AbstractTestCase {
     public void test2() throws ParserConfigurationException, IOException {
     	VTDNav vtdNav1 = VTDNavCreator.getVTDNav(new File("src/test/resources/xml2.xml").toURI().toURL());
         Resource res = new StringResource("/xml/element[@attribute=1]");
-        XPathQueryExecutor exec = new XPathQueryExecutor(context, vtdNav1, res, new AbstractConnection.StatementCounter(), false);
+        XPathQueryExecutor exec = new XPathQueryExecutor(vtdNav1, res, new AbstractConnection.StatementCounter(), false);
         IndexedQueryCallback callback = new IndexedQueryCallback() {
 
             protected void processRow(final ParametersCallback parameters, final int rowNumber) {
@@ -81,7 +76,7 @@ public class XPathQueryExecutorTest extends AbstractTestCase {
         //Now select element2, also test substitution
         VTDNav vtdNav2 = VTDNavCreator.getVTDNav(new File("src/test/resources/xml2.xml").toURI().toURL());
         res = new StringResource(" /xml/element2 ");
-        exec = new XPathQueryExecutor(context, vtdNav2, res, new AbstractConnection.StatementCounter(), false);
+        exec = new XPathQueryExecutor(vtdNav2, res, new AbstractConnection.StatementCounter(), false);
         callback = new IndexedQueryCallback() {
 
             protected void processRow(final ParametersCallback parameters, final int rowNumber) {

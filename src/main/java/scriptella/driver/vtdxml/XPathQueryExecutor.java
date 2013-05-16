@@ -26,7 +26,10 @@ import scriptella.util.IOUtils;
 import scriptella.util.StringUtils;
 
 import com.ximpleware.AutoPilot;
+import com.ximpleware.NavException;
 import com.ximpleware.VTDNav;
+import com.ximpleware.XPathEvalException;
+import com.ximpleware.XPathParseException;
 
 /**
  * Executor for XPath queries with vtd-xml.
@@ -39,7 +42,6 @@ public class XPathQueryExecutor implements ParametersCallback {
     private String expressionStr;
     private AbstractConnection.StatementCounter counter;
     private boolean returnArrays;
-    ThreadLocal<VTDNav> context;
 
     /**
      * Crates executor to query document using a specified xpath expression.
@@ -52,8 +54,7 @@ public class XPathQueryExecutor implements ParametersCallback {
      * @param counter       statement counter.
      * @param returnArrays  true if string arrays should be returned for variables.
      */
-    public XPathQueryExecutor(ThreadLocal<VTDNav> context, VTDNav vtdNav, Resource xpathResource, AbstractConnection.StatementCounter counter, boolean returnArrays) {
-        this.context = context;
+    public XPathQueryExecutor(VTDNav vtdNav, Resource xpathResource, AbstractConnection.StatementCounter counter, boolean returnArrays) {
         this.vtdNav = vtdNav;
         this.counter = counter;
         this.returnArrays = returnArrays;
@@ -71,25 +72,29 @@ public class XPathQueryExecutor implements ParametersCallback {
      * @param parentParameters parent parameters to inherit.
      */
     public void execute(final QueryCallback queryCallback, final ParametersCallback parentParameters) {
-        // Set the context node to the selected node of the nearest xpath query of this connection.
+    	
+    	// expressionStr = /TEST/TESTER
+        AutoPilot ap = new AutoPilot(vtdNav);
+       
         try {
-            substitutor.setParameters(parentParameters);
-            
-            // expressionStr = /TEST/TESTER
-            AutoPilot ap = new AutoPilot(vtdNav);
-            ap.selectXPath(expressionStr);
-            int result = -1;
-            
-            while((result = ap.evalXPath()) != -1){
-            	context.set(vtdNav); //store the context local to the current thread
-                queryCallback.processRow(this);
-            }
-            
-        } catch (Exception e) {
-            throw new VtdXmlXPathProviderException("Failed to evaluate XPath query", e);
-        } finally {
+			ap.selectXPath(expressionStr);
+		} catch (XPathParseException e) {
+			throw new VtdXmlXPathProviderException("while selecting the xpath: " + expressionStr + " an exception occured.", e);
+		} finally {
             substitutor.setParameters(null);
-            context.set(vtdNav); //restore ThreadLocal state
+        }
+        
+        int result = -1;
+        try {
+			while((result = ap.evalXPath()) != -1){
+			    queryCallback.processRow(this);
+			}
+		} catch(XPathEvalException e) {
+			throw new VtdXmlXPathProviderException("couldn't evaluate the xpath: " + expressionStr, e);
+		} catch (NavException e) {
+			throw new VtdXmlXPathProviderException("couldn't navigate to the xpath: " + expressionStr, e);
+		} finally {
+            substitutor.setParameters(null);
         }
     }
  

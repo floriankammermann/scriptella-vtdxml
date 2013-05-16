@@ -76,8 +76,7 @@ public class XPathConnectionPerfTest extends AbstractTestCase {
         long startMillis = System.currentTimeMillis();
         
         //Querying 200 times.
-        XPathQueryExecutor qe = new XPathQueryExecutor(new ThreadLocal<VTDNav>(), 
-        											   vtdNav, new StringResource("/table/row[@id mod 2=0]"), 
+        XPathQueryExecutor qe = new XPathQueryExecutor(vtdNav, new StringResource("/table/row[@id mod 2=0]"), 
         											   new AbstractConnection.StatementCounter(), false);
         for (int i = 0; i < 20; i++) {
             IndexedQueryCallback queryCallback = new IndexedQueryCallback() {
@@ -104,8 +103,7 @@ public class XPathConnectionPerfTest extends AbstractTestCase {
         long startMillis = System.currentTimeMillis();
         
         //Querying 200 times.
-        XPathQueryExecutor qe = new XPathQueryExecutor(new ThreadLocal<VTDNav>(), 
-        											   vtdNav, new StringResource("/DATA/UNIT"), 
+        XPathQueryExecutor qe = new XPathQueryExecutor(vtdNav, new StringResource("/DATA/UNIT"), 
         											   new AbstractConnection.StatementCounter(), false);
         IndexedQueryCallback queryCallback = new IndexedQueryCallback() {
         	
