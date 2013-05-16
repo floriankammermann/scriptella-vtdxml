@@ -27,7 +27,17 @@ import scriptella.spi.DialectIdentifier;
  * @author Kammermann Florian
  */
 public class Driver extends AbstractScriptellaDriver {
-    static final DialectIdentifier DIALECT = new DialectIdentifier("XPath", "1.0");
+	
+	/**
+	 * The dialect supported by this driver.
+	 */
+    public static final DialectIdentifier DIALECT = new DialectIdentifier("XPath", "1.0");
+    
+    /**
+     * Name of the <code>encoding</code> connection property.
+     * Specifies charset encoding in text files.
+     */
+    public static final String ENCODING = "encoding";
 
     public Connection connect(ConnectionParameters connectionParameters) {
         return new VtdXmlXPathConnection(connectionParameters);

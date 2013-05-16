@@ -32,7 +32,7 @@ import com.ximpleware.VTDNav;
 /**
  * Tests for {@link XPathQueryExecutor}.
  *
- * @author Fyodor Kupolov
+ * @author Kammermann Florian
  * @version 1.0
  */
 public class XPathQueryExecutorTest extends AbstractTestCase {
@@ -62,7 +62,7 @@ public class XPathQueryExecutorTest extends AbstractTestCase {
         assertEquals(3,callback.getRowsNumber());
     }
 
-    public void test2() throws ParserConfigurationException, IOException, SAXException {
+    public void test2() throws ParserConfigurationException, IOException {
     	VTDNav vtdNav1 = VTDNavCreator.getVTDNav(new File("src/test/resources/xml2.xml").toURI().toURL());
         Resource res = new StringResource("/xml/element[@attribute=1]");
         XPathQueryExecutor exec = new XPathQueryExecutor(context, vtdNav1, res, new AbstractConnection.StatementCounter(), false);
