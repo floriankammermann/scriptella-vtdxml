@@ -1,10 +1,10 @@
 package scriptella.driver.vtdxml;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,39 +33,16 @@ public class VTDNavCreator {
 
 	private static VTDNav createVTDNavFromXmlFile(URL url) {
 		
+		byte[] b = null;
 		try {
 			url.openStream();
+			InputStream is = url.openStream();
+			b = IOUtils.toByteArray(is);
 		} catch (IOException e) {
-			throw new VtdXmlXPathProviderException("expection while opening the stream for: " + url.toString(), e);
-		}
-
-		ByteArrayOutputStream bais = new ByteArrayOutputStream();
-		InputStream is = null;
-		
-		try {
-			is = url.openStream();
-			byte[] byteChunk = new byte[4096]; // Or whatever size you want to
-												// read in at a time.
-			int n;
-
-			while ((n = is.read(byteChunk)) > 0) {
-				bais.write(byteChunk, 0, n);
-			}
-		} catch (IOException e) {
-			throw new VtdXmlXPathProviderException("Failed while reading bytes from url: " + url.toString(), e);
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-					log.error("couldn't close the input stream for url: " + url);
-				}
-			}
+			throw new VtdXmlXPathProviderException("expection while converting the url into a byte array: " + url.toString(), e);
 		}
 
 		VTDGen vg = new VTDGen();
-		byte[] b = bais.toByteArray();
-		
 		vg.setDoc(b);
 
 		try {
