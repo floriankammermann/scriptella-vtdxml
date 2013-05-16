@@ -15,6 +15,7 @@
  */
 package scriptella.driver.vtdxml;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 
@@ -33,9 +34,9 @@ public class MockConnectionEl extends ConnectionEl {
         properties = Collections.emptyMap();
     }
 
-    public MockConnectionEl(Map<String,?> properties, String url) {
+    public MockConnectionEl(Map<String,?> properties, URL url) {
         this.properties = properties;
-        setUrl(url);
+        setUrl(url.toString());
     }
 
     public MockConnectionEl(Map<String,?> properties) {

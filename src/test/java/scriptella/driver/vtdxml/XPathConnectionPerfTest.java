@@ -17,6 +17,7 @@ package scriptella.driver.vtdxml;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,8 @@ public class XPathConnectionPerfTest extends AbstractTestCase {
     public void testQuery() {
         //Create a configuration with non default values
         Map<String, String> props = new HashMap<String, String>();
-        ConnectionParameters cp = new ConnectionParameters(new MockConnectionEl(props, getClass().getResource("/excel.xml").toString()), MockDriverContext.INSTANCE);
+        URL url = getClass().getResource("/excel.xml");
+        ConnectionParameters cp = new ConnectionParameters(new MockConnectionEl(props, url), MockDriverContext.INSTANCE);
 
         Connection con = new Driver().connect(cp);
         IndexedQueryCallback queryCallback = new IndexedQueryCallback() {
